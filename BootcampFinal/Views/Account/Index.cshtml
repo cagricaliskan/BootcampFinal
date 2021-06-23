@@ -1,0 +1,165 @@
+﻿@model IPagedList<BootcampFinal.Models.User>
+
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal">
+    Add new resident
+</button>
+
+
+<form class="form-inline float-right" method="get">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="@ViewBag.search">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+@if (TempData["message"] != null)
+{
+    NotificationViewModel message = NotificationViewModel.GetNotificationFromJson(TempData["message"].ToString());
+
+    <div class="mt-4 card margin-top bg-gradient-@message.NotificationType.ToString()">
+        <div class="card-header">
+            <h3 class="card-title">@message.Title</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @message.Content
+        </div>
+        <!-- /.card-body -->
+    </div>
+}
+
+
+@if (ViewBag.search != null)
+{
+    <div class="mt-4 card margin-top bg-gradient-info">
+        <div class="card-header">
+            <h3 class="card-title">Search Results</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @ViewBag.searchCount results have been found from the search for "@ViewBag.search" in <span class="badge badge-light">Full Name</span> and <span class="badge badge-light">Email</span><br />
+            @Html.ActionLink("Clear Search", "Index", "InstructorManagement", null, new { @class = "btn btn-sm btn-default mt-2" })
+        </div>
+        <!-- /.card-body -->
+    </div>
+}
+
+<div class="card card-primary mt-4">
+
+    <div class="card-header">
+        <b>Resident List</b>
+    </div>
+
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:6%">#.</th>
+                <th>Full Name</th>
+                <th>EMail</th>
+                <th class="text-right" style="width:10%">İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                int page = ((int)ViewBag.page);
+                int counter = (page - 1) * 10;
+            }
+
+            @foreach (var item in Model)
+            {
+                counter++;
+                <tr>
+                    <td>@counter.</td>
+                    <td>@item.Name @item.LastName</td>
+                    <td>@item.Email</td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editUserModal" data-id="@item.Id">
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteUserModal" data-id="@item.Id">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- ADD -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new instructor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="AddUser" method="post">
+                    <input id="UserRole" name="UserRole" type="hidden" value="1" />
+                    <div class="form-group">
+                        <label for="Name">Name:  </label>
+                        <input type="text" id="Name" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName">Lastname:  </label>
+                        <input type="text" id="LastName" name="lastName" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email">Email address: </label>
+                        <input type="email" id="Email" name="email" placeholder="Enter instructors' email address" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Password">Password: </label>
+                        <input type="text" id="Password" name="password" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PhoneNumber">Phone number: </label>
+                        <input type="text" id="PhoneNumber" name="phoneNumber" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TCKN">Kimlik No </label>
+                        <input type="text" id="TCKN" name="TCKN" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
