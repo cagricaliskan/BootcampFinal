@@ -51,5 +51,50 @@ namespace BootcampFinal.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public JsonResult GetUser(int id)
+        {
+            User u = _db.Users.Select(x => new User { Id = x.Id, Email = x.Email, LastName = x.LastName, Name = x.Name, PhoneNumber = x.PhoneNumber, TCKN = x.TCKN, Vehicles = x.Vehicles }).FirstOrDefault(n => n.Id == id);
+            return Json(u);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(User user)
+        {
+            User u = _db.Users.FirstOrDefault(x => x.Id == user.Id);
+            if(u != null)
+            {
+                u.Name = user.Name;
+                u.LastName = user.LastName;
+                u.PhoneNumber = user.LastName;
+                u.PhoneNumber = user.PhoneNumber;
+                u.TCKN = user.TCKN;
+                u.Vehicles = user.Vehicles;
+
+                if (ModelState.IsValid)
+                {
+                    await _db.SaveChangesAsync();
+                }
+                else
+                {
+
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser (int id)
+        {
+            User u = _db.Users.FirstOrDefault(x => x.Id == id);
+
+            if(u != null)
+            {
+                _db.Users.Remove(u);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

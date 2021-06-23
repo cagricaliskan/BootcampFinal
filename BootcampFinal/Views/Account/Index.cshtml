@@ -55,7 +55,7 @@
         <!-- /.card-header -->
         <div class="card-body">
             @ViewBag.searchCount results have been found from the search for "@ViewBag.search" in <span class="badge badge-light">Full Name</span> and <span class="badge badge-light">Email</span><br />
-            @Html.ActionLink("Clear Search", "Index", "InstructorManagement", null, new { @class = "btn btn-sm btn-default mt-2" })
+            @Html.ActionLink("Clear Search", "Index", "Account", null, new { @class = "btn btn-sm btn-default mt-2" })
         </div>
         <!-- /.card-body -->
     </div>
@@ -163,3 +163,91 @@
         </div>
     </div>
 </div>
+
+<!-- EDIT -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new instructor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="EditUser" method="post">
+                    <input id="UserRole" name="UserRole" type="hidden" value="1" />
+                    <input type="hidden" class="Id" id="Id" name="Id" />
+                    <div class="form-group">
+                        <label for="Name">Name:  </label>
+                        <input type="text" id="Name" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName">Lastname:  </label>
+                        <input type="text" id="LastName" name="lastName" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email">Email address: </label>
+                        <input type="email" id="Email" name="email" placeholder="Enter instructors' email address" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Password">Password: </label>
+                        <input type="text" id="Password" name="password" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PhoneNumber">Phone number: </label>
+                        <input type="text" id="PhoneNumber" name="phoneNumber" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TCKN">Kimlik No </label>
+                        <input type="text" id="TCKN" name="TCKN" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".editBtn").on("click", function () {
+                
+
+                var Id = $(this).data("id");
+                alert(Id);
+                var getUserUrl = "@Url.Action("GetUser", "Account", null, "http")";
+                var fullUrl = getUserUrl + "/" + Id;
+
+                $.get(fullUrl, function (data, status) {
+                    $("select.Id").val(data.id);
+                    $("select.Name").val(data.name);
+                    $("select.Lastname").val(data.lastname);
+                    $("input.Email").val(data.email);
+                    $("input.Password").val(data.password);
+                    $("input.PhoneNumber").val(data.phoneNumber);
+                    $("input.TCKN").val(data.tckn);
+                });
+
+            })
+        })
+    </script>
+}

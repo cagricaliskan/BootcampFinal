@@ -1,5 +1,5 @@
 ﻿@{
- //   string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;
+  // string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;  
 }
 
 
@@ -7,21 +7,21 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="~/" class="brand-link">
-        <img src="~/img/aybu.png" alt="AdminLTE Logo" class="brand-image">
-        <span class="brand-text font-weight-light">Uni<b>QR</b></span>
+        @*<img src="~/img/aybu.png" alt="AdminLTE Logo" class="brand-image">*@
+        <span class="brand-text font-weight-light">Uni<b>Apsis</b></span>
     </a>
 
-    <!-- Sidebar -->
+     Sidebar 
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
+         Sidebar user panel (optional) 
         <div class="user-panel mt-2 pb-2 mb-3 d-flex">
             <div class="image" style="display: flex; align-items: center; flex-wrap: wrap;">
-                <img src="~/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
+                @*<img src="~/img/avatar2.png" class="img-circle elevation-2" alt="User Image">*@
             </div>
-            @*<div class="info">
-                <a href="#" class="d-block">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault().Value</a>
-                <a href="#" class="d-block" style="font-size: smaller;color: #838f9b">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value</a>
-            </div>*@
+            <div class="info">
+                @*<a href="#" class="d-block">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault().Value</a>
+                <a href="#" class="d-block" style="font-size: smaller;color: #838f9b">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value</a>*@
+            </div>
         </div>
 
         <!-- Sidebar Menu -->
@@ -36,61 +36,61 @@
             </li>
 
 
-            @*@if (userRole == "Administrator")*@
-            {
-                <li class="nav-item">
-                    <a href="~/Floor/Index" class="nav-link">
-                        <i class="far fa-building nav-icon"> </i>
-                        <p>Floor</p>
-                    </a>
-                </li>
+            @*@if (userRole == "Administrator")
+        {*@
+            <li class="nav-item">
+                <a href="~/Floor/Index" class="nav-link">
+                    <i class="far fa-building nav-icon"> </i>
+                    <p>Floor</p>
+                </a>
+            </li>
 
 
-                <li class="nav-item">
-                    <a href="~/InstructorManagement/Index" class="nav-link">
-                        <i class="fas fa-user nav-icon"> </i>
-                        <p>Instructors</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="~/Account/Index" class="nav-link">
+                    <i class="fas fa-user nav-icon"> </i>
+                    <p>Users</p>
+                </a>
+            </li>
 
 
-                <li class="nav-item">
-                    <a href="~/Course/Index" class="nav-link ">
-                        <i class="fa fa-book nav-icon"> </i>
-                        <p>Courses</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="~/Course/Index" class="nav-link ">
+                    <i class="fa fa-book nav-icon"> </i>
+                    <p>Courses</p>
+                </a>
+            </li>
 
 
-                <li class="nav-item">
-                    <a href="~/Classroom/Index" class="nav-link">
-                        <i class="fas fa-chalkboard nav-icon"></i>
-                        <p>Classrooms</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="~/Classroom/Index" class="nav-link">
+                    <i class="fas fa-chalkboard nav-icon"></i>
+                    <p>Classrooms</p>
+                </a>
+            </li>
 
 
-                <li class="nav-item">
-                    <a href="~/Class/Index" class="nav-link">
-                        <i class="fas fa-chalkboard-teacher nav-icon"> </i>
-                        <p>Classes</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="~/Class/Index" class="nav-link">
+                    <i class="fas fa-chalkboard-teacher nav-icon"> </i>
+                    <p>Classes</p>
+                </a>
+            </li>
 
 
 
 
-            }
+            @* }
 
-            @*@if (userRole == "Instructor")*@
-            {
-                <li class="nav-item">
-                    <a href="~/MyClasses/Index" class="nav-link" >
-                        <i class="fas fa-chalkboard-teacher nav-icon"> </i>
-                        <p>My Classes</p>
-                    </a>
-                </li>
-            }
+        @if (userRole == "Instructor")
+            { *@
+            <li class="nav-item">
+                <a href="~/MyClasses/Index" class="nav-link">
+                    <i class="fas fa-chalkboard-teacher nav-icon"> </i>
+                    <p>My Classes</p>
+                </a>
+            </li>
+            @*}*@
 
 
             <li class="nav-item">

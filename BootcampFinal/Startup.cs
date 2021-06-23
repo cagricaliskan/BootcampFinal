@@ -23,6 +23,9 @@ namespace BootcampFinal
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+            services.AddMvc().AddRazorRuntimeCompilation();
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Administrator", policy => // kurum yöneticisi
