@@ -1,5 +1,5 @@
 ﻿@{
-  // string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;  
+   string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;  
 }
 
 
@@ -16,11 +16,11 @@
          Sidebar user panel (optional) 
         <div class="user-panel mt-2 pb-2 mb-3 d-flex">
             <div class="image" style="display: flex; align-items: center; flex-wrap: wrap;">
-                @*<img src="~/img/avatar2.png" class="img-circle elevation-2" alt="User Image">*@
+                <img src="https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?s=612x612" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                @*<a href="#" class="d-block">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault().Value</a>
-                <a href="#" class="d-block" style="font-size: smaller;color: #838f9b">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value</a>*@
+                <a href="#" class="d-block">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault().Value</a>
+                <a href="#" class="d-block" style="font-size: smaller;color: #838f9b">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value</a>
             </div>
         </div>
 
@@ -39,9 +39,9 @@
             @*@if (userRole == "Administrator")
         {*@
             <li class="nav-item">
-                <a href="~/Floor/Index" class="nav-link">
+                <a href="~/Building/Index" class="nav-link">
                     <i class="far fa-building nav-icon"> </i>
-                    <p>Floor</p>
+                    <p>Buildings</p>
                 </a>
             </li>
 
@@ -82,7 +82,7 @@
 
             @* }
 
-        @if (userRole == "Instructor")
+        @if (userRole == "Resident")
             { *@
             <li class="nav-item">
                 <a href="~/MyClasses/Index" class="nav-link">

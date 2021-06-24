@@ -16,7 +16,7 @@ namespace BootcampFinal.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Building> Buildings { get; set; }
         public DbSet<BuildingFlat> BuildingFlats { get; set; }
-        public DbSet<BuildingType> BuildingTypes { get; set; }
+        public DbSet<FlatType> FlatTypes{ get; set; }
         public DbSet<Flat> Flats { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }

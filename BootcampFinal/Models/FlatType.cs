@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace BootcampFinal.Models
 {
-    public class BuildingType
+    public class FlatType
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Building> Buildings { get; set; }    
+        public virtual ICollection<Flat> Flats{ get; set; }    
     }
 }

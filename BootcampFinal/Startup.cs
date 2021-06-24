@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace BootcampFinal
 {
@@ -25,6 +26,13 @@ namespace BootcampFinal
 
 
             services.AddMvc().AddRazorRuntimeCompilation();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login/";
+                options.AccessDeniedPath = "/Account/Forbidden/";
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+            });
 
             services.AddAuthorization(options =>
             {
