@@ -8,20 +8,21 @@ namespace BootcampFinal.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BuildingTypes",
+                name: "Buildings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Floor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuildingTypes", x => x.Id);
+                    table.PrimaryKey("PK_Buildings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flats",
+                name: "FlatTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -30,7 +31,7 @@ namespace BootcampFinal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Flats", x => x.Id);
+                    table.PrimaryKey("PK_FlatTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,24 +83,21 @@ namespace BootcampFinal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Buildings",
+                name: "Flats",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BuildingTypeId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Floor = table.Column<int>(type: "int", nullable: false),
-                    Subscription = table.Column<int>(type: "int", nullable: false),
-                    Bill = table.Column<int>(type: "int", nullable: false)
+                    FlatTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Buildings", x => x.Id);
+                    table.PrimaryKey("PK_Flats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Buildings_BuildingTypes_BuildingTypeId",
-                        column: x => x.BuildingTypeId,
-                        principalTable: "BuildingTypes",
+                        name: "FK_Flats_FlatTypes_FlatTypeId",
+                        column: x => x.FlatTypeId,
+                        principalTable: "FlatTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -191,9 +189,9 @@ namespace BootcampFinal.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buildings_BuildingTypeId",
-                table: "Buildings",
-                column: "BuildingTypeId");
+                name: "IX_Flats_FlatTypeId",
+                table: "Flats",
+                column: "FlatTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_UserId",
@@ -225,7 +223,7 @@ namespace BootcampFinal.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "BuildingTypes");
+                name: "FlatTypes");
         }
     }
 }

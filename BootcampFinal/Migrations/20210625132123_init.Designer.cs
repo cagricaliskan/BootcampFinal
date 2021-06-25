@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BootcampFinal.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20210624105028_initt")]
-    partial class initt
+    [Migration("20210625132123_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,148 @@
+﻿@model IPagedList<BootcampFinal.Models.FlatType>
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<button type="submit" class="btn btn-success" data-toggle="modal" data-target="#addFlatTypeModal">
+    Add new flat type
+</button>
+
+<div class="card card-primary mt-4">
+
+    <div class="card-header">
+        <b>Flat Type List</b>
+    </div>
+
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:6%">#.</th>
+                <th>Flat Type Name</th>
+                <th class="text-right" style="width:10%">İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                int page = ((int)ViewBag.page);
+                int counter = (page - 1) * 10;
+            }
+
+            @foreach (var item in Model)
+            {
+                counter++;
+                <tr>
+                    <td>@counter</td>
+                    <td>@item.Name</td>
+                    <td class="text-right">
+                        <button class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editFlatTypeModal" data-id="@item.Id">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-md-12">
+        <div class="float-right">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.search }), new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link", "text-bold" },
+           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+           DisplayLinkToIndividualPages = true
+       })
+        </div>
+    </div>
+
+</div>
+
+<!-- ADD -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addFlatTypeModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new flat type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="FlatTypes" asp-action="AddFlatType" method="post">
+                    <div class="form-group">
+                        <label for="Name">Name:  </label>
+                        <input type="text" id="Name" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editFlatTypeModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new flat type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="FlatTypes" asp-action="EditFlatType" method="post">
+                    <input type="hidden" id="Id" name="Id" />
+                    <div class="form-group">
+                        <label for="Name">Name:  </label>
+                        <input type="text" id="Name" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $(".editBtn").on("click", function () {
+                var flattypeId = $(this).data("id");
+                var getFTUrl = "@Url.Action("GetFlatType", "FlatTypes", null, "http")";
+                var fullUrl = getFTUrl + "/" + flattypeId;
+
+                $.get(fullUrl, function (data, status) {
+                    $("input#Name").val(data.name);
+                    $("input#Id").val(data.id);
+                });
+
+            })
+        })
+    </script>
+
+}

@@ -42,6 +42,8 @@ namespace BootcampFinal.Models
                 TCKN = "123456778901",
                 UserRole = UserRole.Administrator
             });
+
+           
         }
     }
 }

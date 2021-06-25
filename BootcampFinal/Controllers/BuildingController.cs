@@ -1,4 +1,5 @@
 ﻿using BootcampFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using X.PagedList;
 
 namespace BootcampFinal.Controllers
 {
+    [Authorize("Administrator")]
     public class BuildingController : Controller
     {
         private readonly ModelContext _db;
