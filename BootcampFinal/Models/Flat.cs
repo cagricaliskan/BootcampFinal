@@ -11,10 +11,7 @@ namespace BootcampFinal.Models
         public string Name { get; set; }
 
 
-        public int FlatTypeId { get; set; }
-        public virtual FlatType FlatType { get; set; }
-
-        public ICollection<BuildingFlat> BuildingFlats { get; set; }
+        public virtual ICollection<BuildingFlat> BuildingFlats { get; set; }
 
     }
 }

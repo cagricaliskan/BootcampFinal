@@ -10,7 +10,7 @@ namespace BootcampFinal.Models
         public int Id { get; set; }
 
 
-        public ICollection<BuildingFlat> BuildingFlats { get; set; }
+        public virtual ICollection<BuildingFlat> BuildingFlats { get; set; }
 
 
         public float Price { get; set; }

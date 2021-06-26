@@ -56,7 +56,7 @@ namespace BootcampFinal
 
             services.AddDbContext<ModelContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
 
             services.AddControllersWithViews();
