@@ -12,6 +12,8 @@ namespace BootcampFinal.Models
 
         public virtual ICollection<BuildingFlat> BuildingFlats { get; set; }
 
+        public virtual ICollection<UserFlat> UserFlats { get; set; }
+
 
         public float Price { get; set; }
         public string Description{ get; set; }

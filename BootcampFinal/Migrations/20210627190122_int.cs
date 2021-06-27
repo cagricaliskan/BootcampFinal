@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BootcampFinal.Migrations
 {
-    public partial class init : Migration
+    public partial class @int : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,19 @@ namespace BootcampFinal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buildings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,47 +96,6 @@ namespace BootcampFinal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FlatTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Flats", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Flats_FlatTypes_FlatTypeId",
-                        column: x => x.FlatTypeId,
-                        principalTable: "FlatTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vehicles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    Plate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vehicles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BuildingFlats",
                 columns: table => new
                 {
@@ -131,8 +103,9 @@ namespace BootcampFinal.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BuildingId = table.Column<int>(type: "int", nullable: false),
                     FlatId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: true)
+                    FlatTypeId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,6 +123,12 @@ namespace BootcampFinal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_BuildingFlats_FlatTypes_FlatTypeId",
+                        column: x => x.FlatTypeId,
+                        principalTable: "FlatTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_BuildingFlats_Payments_PaymentId",
                         column: x => x.PaymentId,
                         principalTable: "Payments",
@@ -157,6 +136,60 @@ namespace BootcampFinal.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BuildingFlats_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Plate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserFlats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: true),
+                    BuildingFlatId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFlats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserFlats_BuildingFlats_BuildingFlatId",
+                        column: x => x.BuildingFlatId,
+                        principalTable: "BuildingFlats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserFlats_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserFlats_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -179,6 +212,11 @@ namespace BootcampFinal.Migrations
                 column: "FlatId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BuildingFlats_FlatTypeId",
+                table: "BuildingFlats",
+                column: "FlatTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BuildingFlats_PaymentId",
                 table: "BuildingFlats",
                 column: "PaymentId");
@@ -189,9 +227,19 @@ namespace BootcampFinal.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Flats_FlatTypeId",
-                table: "Flats",
-                column: "FlatTypeId");
+                name: "IX_UserFlats_BuildingFlatId",
+                table: "UserFlats",
+                column: "BuildingFlatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFlats_PaymentId",
+                table: "UserFlats",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFlats_UserId",
+                table: "UserFlats",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_UserId",
@@ -202,13 +250,16 @@ namespace BootcampFinal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BuildingFlats");
-
-            migrationBuilder.DropTable(
                 name: "PaymentTypes");
 
             migrationBuilder.DropTable(
+                name: "UserFlats");
+
+            migrationBuilder.DropTable(
                 name: "Vehicles");
+
+            migrationBuilder.DropTable(
+                name: "BuildingFlats");
 
             migrationBuilder.DropTable(
                 name: "Buildings");
@@ -217,13 +268,13 @@ namespace BootcampFinal.Migrations
                 name: "Flats");
 
             migrationBuilder.DropTable(
+                name: "FlatTypes");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "FlatTypes");
         }
     }
 }

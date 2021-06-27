@@ -17,8 +17,10 @@ namespace BootcampFinal.Models
         public virtual ICollection<BuildingFlat> BuildingFlats { get; set; }
         
         public virtual ICollection<Vehicle> Vehicles { get; set; }
-        
-        
+        public virtual ICollection<UserFlat> UserFlats { get; set; }
+
+
+
         public string Name { get; set; }
         public string LastName { get; set; }
         public string TCKN { get; set; }

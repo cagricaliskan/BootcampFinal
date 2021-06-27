@@ -1,0 +1,100 @@
+﻿@model IPagedList<BootcampFinal.Models.UserFlat>
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
+}
+
+@foreach (var item in Model)
+{
+<div>
+    <td>@item.User.Name</td>
+    <td>@item.BuildingFlat.Building.Name</td>
+    <td>@item.BuildingFlat.Flat.Name</td>
+    <td>@item.BuildingFlat.FlatType.Name</td>
+</div>
+}
+
+<!-- ADD -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addHouseModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new house</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="ResidentHouse" asp-action="Index" method="post">
+
+                    <div class="form-group">
+                        <label for="Building">Resident:</label>
+                        <select class="form-control UserId" name="UserId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<User>)ViewBag.user)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Building">Building:</label>
+                        <select class="form-control BuildingId" name="BuildingId">
+                            <option value="0">Select a Building</option>
+                            @foreach (var item in (List<Building>)ViewBag.building)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Building">Building:</label>
+                        <select class="form-control BuildingId" name="BuildingId">
+                            <option value="0">Select a Building</option>
+                            @foreach (var item in (List<Building>)ViewBag.building)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="User">Door Number:</label>
+                        <select class="form-control FlatId" name="FlatId">
+                            <option value="0">Select door number</option>
+                            @foreach (var item in (List<Flat>)ViewBag.flat)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="User">Flat Type:</label>
+                        <select class="form-control FlatTypeId" name="FlatTypeId">
+                            <option value="0">Select a flat type</option>
+                            @foreach (var item in (List<FlatType>)ViewBag.ft)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BootcampFinal.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20210625132123_init")]
-    partial class init
+    [Migration("20210627190122_int")]
+    partial class @int
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,10 +52,13 @@ namespace BootcampFinal.Migrations
                     b.Property<int>("FlatId")
                         .HasColumnType("int");
 
+                    b.Property<int>("FlatTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -63,6 +66,8 @@ namespace BootcampFinal.Migrations
                     b.HasIndex("BuildingId");
 
                     b.HasIndex("FlatId");
+
+                    b.HasIndex("FlatTypeId");
 
                     b.HasIndex("PaymentId");
 
@@ -78,15 +83,10 @@ namespace BootcampFinal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FlatTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FlatTypeId");
 
                     b.ToTable("Flats");
                 });
@@ -191,6 +191,33 @@ namespace BootcampFinal.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BootcampFinal.Models.UserFlat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BuildingFlatId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingFlatId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFlats");
+                });
+
             modelBuilder.Entity("BootcampFinal.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
@@ -204,7 +231,7 @@ namespace BootcampFinal.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -228,39 +255,59 @@ namespace BootcampFinal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BootcampFinal.Models.FlatType", "FlatType")
+                        .WithMany("BuildingFlats")
+                        .HasForeignKey("FlatTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BootcampFinal.Models.Payment", null)
                         .WithMany("BuildingFlats")
                         .HasForeignKey("PaymentId");
 
-                    b.HasOne("BootcampFinal.Models.User", "User")
+                    b.HasOne("BootcampFinal.Models.User", null)
                         .WithMany("BuildingFlats")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Building");
 
                     b.Navigation("Flat");
 
-                    b.Navigation("User");
+                    b.Navigation("FlatType");
                 });
 
-            modelBuilder.Entity("BootcampFinal.Models.Flat", b =>
+            modelBuilder.Entity("BootcampFinal.Models.UserFlat", b =>
                 {
-                    b.HasOne("BootcampFinal.Models.FlatType", "FlatType")
-                        .WithMany("Flats")
-                        .HasForeignKey("FlatTypeId")
+                    b.HasOne("BootcampFinal.Models.BuildingFlat", "BuildingFlat")
+                        .WithMany("UserFlats")
+                        .HasForeignKey("BuildingFlatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FlatType");
+                    b.HasOne("BootcampFinal.Models.Payment", "Payment")
+                        .WithMany("UserFlats")
+                        .HasForeignKey("PaymentId");
+
+                    b.HasOne("BootcampFinal.Models.User", "User")
+                        .WithMany("UserFlats")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BuildingFlat");
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BootcampFinal.Models.Vehicle", b =>
                 {
                     b.HasOne("BootcampFinal.Models.User", "User")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -270,6 +317,11 @@ namespace BootcampFinal.Migrations
                     b.Navigation("BuildingFlats");
                 });
 
+            modelBuilder.Entity("BootcampFinal.Models.BuildingFlat", b =>
+                {
+                    b.Navigation("UserFlats");
+                });
+
             modelBuilder.Entity("BootcampFinal.Models.Flat", b =>
                 {
                     b.Navigation("BuildingFlats");
@@ -277,17 +329,21 @@ namespace BootcampFinal.Migrations
 
             modelBuilder.Entity("BootcampFinal.Models.FlatType", b =>
                 {
-                    b.Navigation("Flats");
+                    b.Navigation("BuildingFlats");
                 });
 
             modelBuilder.Entity("BootcampFinal.Models.Payment", b =>
                 {
                     b.Navigation("BuildingFlats");
+
+                    b.Navigation("UserFlats");
                 });
 
             modelBuilder.Entity("BootcampFinal.Models.User", b =>
                 {
                     b.Navigation("BuildingFlats");
+
+                    b.Navigation("UserFlats");
 
                     b.Navigation("Vehicles");
                 });

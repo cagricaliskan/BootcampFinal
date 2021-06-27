@@ -10,28 +10,21 @@ namespace BootcampFinal.Models
     {
         public int Id { get; set; }
 
+        public virtual ICollection<UserFlat> UserFlats { get; set; }
+
 
         public int BuildingId { get; set; }
         [ForeignKey("BuildingId")]
         public virtual Building Building { get; set; }
 
-
         public int FlatId { get; set; }
         [ForeignKey("FlatId")]
         public virtual Flat Flat { get; set; }
-
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
 
         public int FlatTypeId { get; set; }
         [ForeignKey("FlatTypeId")]
         public virtual FlatType FlatType { get; set; }
 
-        public int PaymentId { get; set; }
-        [ForeignKey("PaymentId")]
-        public virtual Payment  Payment{ get; set; }
 
     }
 }
