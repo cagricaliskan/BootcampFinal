@@ -68,7 +68,6 @@
         <thead>
             <tr>
                 <th style="width:6%">#.</th>
-                <th>Resident</th>
                 <th>Building</th>
                 <th>No</th>
                 <th>Flat Type</th>
@@ -87,7 +86,6 @@
                 counter++;
                 <tr>
                     <td>@counter.</td>
-                    <td>@item.User.Name</td>
                     <td>@item.Building.Name</td>
                     <td>@item.Flat.Name</td>
                     <td>@item.FlatType.Name</td>
@@ -132,17 +130,6 @@
                 <form asp-controller="House" asp-action="AddHouse" method="post">
 
                     <div class="form-group">
-                        <label for="User">Resident:</label>
-                        <select class="form-control UserId" name="UserId">
-                            <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<User>)ViewBag.user)
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label for="Building">Building:</label>
                         <select class="form-control BuildingId" name="BuildingId">
                             <option value="0">Select a Building</option>
@@ -154,20 +141,21 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="User">Resident:</label>
+                        <label for="User">Door Number:</label>
                         <select class="form-control FlatId" name="FlatId">
                             <option value="0">Select door number</option>
                             @foreach (var item in (List<Flat>)ViewBag.flat)
                             {
                                 <option value="@item.Id">@item.Name</option>
+
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="User">Resident:</label>
+                        <label for="User">Flat Type:</label>
                         <select class="form-control FlatTypeId" name="FlatTypeId">
-                            <option value="0">Select a Resident</option>
+                            <option value="0">Select a flat type</option>
                             @foreach (var item in (List<FlatType>)ViewBag.ft)
                             {
                                 <option value="@item.Id">@item.Name</option>

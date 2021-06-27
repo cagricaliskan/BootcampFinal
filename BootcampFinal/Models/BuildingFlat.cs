@@ -29,5 +29,9 @@ namespace BootcampFinal.Models
         [ForeignKey("FlatTypeId")]
         public virtual FlatType FlatType { get; set; }
 
+        public int PaymentId { get; set; }
+        [ForeignKey("PaymentId")]
+        public virtual Payment  Payment{ get; set; }
+
     }
 }

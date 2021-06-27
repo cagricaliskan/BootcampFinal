@@ -26,7 +26,7 @@ namespace BootcampFinal.Controllers
             var house = _db.BuildingFlats.AsQueryable();
             if(search != null)
             {
-                house = _db.BuildingFlats.Where(x => x.User.Name.Contains(search) || x.Building.Name.Contains(search) || x.FlatType.Name.Contains(search) || x.Flat.Name.Contains(search));
+                house = _db.BuildingFlats.Where(x => x.Building.Name.Contains(search) || x.FlatType.Name.Contains(search) || x.Flat.Name.Contains(search));
 
                 ViewBag.search = search;
                 ViewBag.count = house.Count();
@@ -57,7 +57,7 @@ namespace BootcampFinal.Controllers
 
         public JsonResult GetHouse(int id) 
         {
-            var h = _db.BuildingFlats.Select(x => new BuildingFlat { Id = x.Id, BuildingId = x.BuildingId, FlatId = x.FlatId, FlatTypeId = x.FlatTypeId, UserId = x.UserId }).FirstOrDefault(n => n.Id == id);
+            var h = _db.BuildingFlats.Select(x => new BuildingFlat { Id = x.Id, BuildingId = x.BuildingId, FlatId = x.FlatId, FlatTypeId = x.FlatTypeId}).FirstOrDefault(n => n.Id == id);
             return Json(h);
         }
 
@@ -71,8 +71,7 @@ namespace BootcampFinal.Controllers
                 h.BuildingId = buildingFlat.BuildingId;
                 h.FlatId = buildingFlat.FlatId;
                 h.FlatTypeId = buildingFlat.FlatTypeId;
-                h.UserId = buildingFlat.UserId;
-
+               
                 if (ModelState.IsValid)
                 {
                     await _db.SaveChangesAsync();

@@ -4,14 +4,16 @@ using BootcampFinal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BootcampFinal.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    partial class ModelContextModelSnapshot : ModelSnapshot
+    [Migration("20210627183301_add user again")]
+    partial class adduseragain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace BootcampFinal.Migrations
                     b.Property<int>("FlatTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaymentId")
+                    b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -232,11 +234,9 @@ namespace BootcampFinal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BootcampFinal.Models.Payment", "Payment")
+                    b.HasOne("BootcampFinal.Models.Payment", null)
                         .WithMany("BuildingFlats")
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentId");
 
                     b.HasOne("BootcampFinal.Models.User", "User")
                         .WithMany("BuildingFlats")
@@ -249,8 +249,6 @@ namespace BootcampFinal.Migrations
                     b.Navigation("Flat");
 
                     b.Navigation("FlatType");
-
-                    b.Navigation("Payment");
 
                     b.Navigation("User");
                 });
