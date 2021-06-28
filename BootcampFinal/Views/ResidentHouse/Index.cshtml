@@ -4,15 +4,115 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
 }
 
-@foreach (var item in Model)
+<form class="form-inline float-right" method="get">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="@ViewBag.search">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+@if (TempData["message"] != null)
 {
-<div>
-    <td>@item.User.Name</td>
-    <td>@item.BuildingFlat.Building.Name</td>
-    <td>@item.BuildingFlat.Flat.Name</td>
-    <td>@item.BuildingFlat.FlatType.Name</td>
-</div>
+    NotificationViewModel message = NotificationViewModel.GetNotificationFromJson(TempData["message"].ToString());
+
+    <div class="mt-4 card margin-top bg-gradient-@message.NotificationType.ToString()">
+        <div class="card-header">
+            <h3 class="card-title">@message.Title</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @message.Content
+        </div>
+        <!-- /.card-body -->
+    </div>
 }
+
+@if (ViewBag.search != null)
+{
+    <div class="mt-4 card margin-top bg-gradient-info">
+        <div class="card-header">
+            <h3 class="card-title">Search Results</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @Html.ActionLink("Clear Search", "Index", "ResidentHouse", null, new { @class = "btn btn-sm btn-default mt-2" })
+        </div>
+        <!-- /.card-body -->
+    </div>
+}
+
+<div class="card card-primary mt-4">
+    <div class="card-header">
+        <b>House List</b>
+    </div>
+
+    <table class="table table-hover table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th style="width:6%">#.</th>
+                <th>Resident</th>
+                <th>Building</th>
+                <th>No</th>
+                <th>Flat Type</th>
+                <th class="text-right" style="width:10%">İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                int page = ((int)ViewBag.page);
+                int counter = (page - 1) * 10;
+            }
+
+            @foreach (var item in Model)
+            {
+                counter++;
+                <tr>
+                    <td>@counter.</td>
+                    <td>@item.User.Name @item.User.LastName</td>
+                    <td>@item.BuildingFlat.Building.Name</td>
+                    <td>@item.BuildingFlat.Flat.Name</td>
+                    <td>@item.BuildingFlat.FlatType.Name</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editHouseModal" data-id="@item.Id">Edit</button>
+                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteHouseModal" data-id="@item.Id">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="col-md-12">
+        <div class="float-right">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.search }), new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link", "text-bold" },
+           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+           DisplayLinkToIndividualPages = true
+       })
+        </div>
+    </div>
+</div>
+
+
 
 <!-- ADD -->
 

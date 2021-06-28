@@ -8,21 +8,30 @@ using X.PagedList;
 
 namespace BootcampFinal.Controllers
 {
-    public class ResidentHouse : Controller
+    public class ResidentHouseController : Controller
     {
         private readonly ModelContext _db;
 
-        public ResidentHouse(ModelContext db)
+        public ResidentHouseController(ModelContext db)
         {
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page =1, string search = " ")
         {
-
-            int page = 1;
+            
             var rh = _db.UserFlats.AsQueryable();
 
+            if (search != null)
+            {
+                rh = _db.UserFlats.Where(x => x.BuildingFlat.Building.Name.Contains(search) || x.BuildingFlat.FlatType.Name.Contains(search) || x.BuildingFlat.Flat.Name.Contains(search));
+
+                ViewBag.search = search;
+                ViewBag.count = rh.Count();
+            }
+
+            rh = rh.OrderBy(x => x.Id);
+            ViewBag.page = page;
             ViewBag.ft = _db.FlatTypes.ToList();
             ViewBag.building = _db.Buildings.ToList();
             ViewBag.user = _db.Users.Where(x => x.UserRole == UserRole.Resident).ToList();
