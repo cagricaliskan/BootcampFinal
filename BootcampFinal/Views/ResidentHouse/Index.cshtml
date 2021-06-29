@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
 }
 
+<button type="button" class="btn btn-success row" data-toggle="modal" data-target="#addRHModal">
+    Append resident to flat 
+</button>
 <form class="form-inline float-right" method="get">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="@ViewBag.search">
     <button class="btn btn-primary" type="submit">Search</button>
@@ -87,8 +90,8 @@
                     <td>@item.BuildingFlat.Flat.Name</td>
                     <td>@item.BuildingFlat.FlatType.Name</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editHouseModal" data-id="@item.Id">Edit</button>
-                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteHouseModal" data-id="@item.Id">Delete</button>
+                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editResidentHouseModal" data-id="@item.Id">Edit</button>
+                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteResidentHouseModal" data-id="@item.Id">Delete</button>
                     </td>
                 </tr>
             }
@@ -116,7 +119,7 @@
 
 <!-- ADD -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="addHouseModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="addRHModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -126,7 +129,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="ResidentHouse" asp-action="Index" method="post">
+                <form asp-controller="ResidentHouse" asp-action="AddRH" method="post">
 
                     <div class="form-group">
                         <label for="Building">Resident:</label>
@@ -140,47 +143,61 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Building">Building:</label>
-                        <select class="form-control BuildingId" name="BuildingId">
-                            <option value="0">Select a Building</option>
-                            @foreach (var item in (List<Building>)ViewBag.building)
+                        <label for="Building">Flat:</label>
+                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<BuildingFlat>) ViewBag.bf)
+                            {
+                               <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editResidentHouseModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new house</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="ResidentHouse" asp-action="EditRH" method="post">
+                    <input type="hidden" id="Id" name="Id" />
+                    <div class="form-group">
+                        <label for="Building">Resident:</label>
+                        <select class="form-control UserId" name="UserId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<User>)ViewBag.user)
                             {
                                 <option value="@item.Id">@item.Name</option>
                             }
                         </select>
                     </div>
 
-
                     <div class="form-group">
-                        <label for="Building">Building:</label>
-                        <select class="form-control BuildingId" name="BuildingId">
-                            <option value="0">Select a Building</option>
-                            @foreach (var item in (List<Building>)ViewBag.building)
+                        <label for="Building">Flat:</label>
+                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<BuildingFlat>)ViewBag.bf)
                             {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="User">Door Number:</label>
-                        <select class="form-control FlatId" name="FlatId">
-                            <option value="0">Select door number</option>
-                            @foreach (var item in (List<Flat>)ViewBag.flat)
-                            {
-                                <option value="@item.Id">@item.Name</option>
-
-                            }
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="User">Flat Type:</label>
-                        <select class="form-control FlatTypeId" name="FlatTypeId">
-                            <option value="0">Select a flat type</option>
-                            @foreach (var item in (List<FlatType>)ViewBag.ft)
-                            {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
                             }
                         </select>
                     </div>
@@ -198,3 +215,77 @@
         </div>
     </div>
 </div>
+
+
+<!-- DELETE -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteResidentHouseModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new house</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="ResidentHouse" asp-action="DeleteRH" method="post">
+                    <input type="hidden" id="Id" name="Id" />
+
+                    <div class="form-group">
+                        <label for="Building">Resident:</label>
+                        <select class="form-control UserId" name="UserId" disabled>
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<User>)ViewBag.user)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Building">Flat:</label>
+                        <select class="form-control BuildingFlatId" name="BuildingFlatId" disabled>
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<BuildingFlat>)ViewBag.bf)
+                            {
+                                <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".editBtn").on("click", function () {
+                var RHId = $(this).data("id");
+                var getRHUrl = "@Url.Action("GetRH", "ResidentHouse", null, "http")";
+                var fullUrl = getRHUrl + "/" + RHId;
+
+                $.get(fullUrl, function (data, status) {
+                    $("select.UserId").val(data.userId); 
+                    
+                    $("select.BuildingFlatId").val(data.buildingFlatId);
+                    $("input#Id").val(data.id);
+
+                    alert(data.userId + data.buildingFlatId);
+                });
+
+            })
+        })
+    </script>
+} 

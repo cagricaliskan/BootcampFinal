@@ -23,6 +23,8 @@ namespace BootcampFinal.Controllers
 
         public IActionResult Index(int page = 1, string search = "")
         {
+
+
             var house = _db.BuildingFlats.AsQueryable();
             if(search != null)
             {
@@ -45,13 +47,31 @@ namespace BootcampFinal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddHouse(BuildingFlat buildingFlat)
+        public IActionResult AddHouse()
         {
-            if(buildingFlat != null)
+            var block = _db.Buildings.ToList();
+            var flats = _db.Flats.ToList();
+
+            foreach(var item in block)
             {
-                _db.Add(buildingFlat);
-                _db.SaveChanges();
+                foreach (var f in flats)
+                {
+                    var entry = new BuildingFlat
+                    {
+                        BuildingId = item.Id,
+                        FlatId = f.Id,
+                        FlatTypeId = 1
+                    };
+
+                    _db.Add(entry);
+                    _db.SaveChangesAsync();
+                }
             }
+            //if(buildingFlat != null)
+            //{
+            //    _db.Add(buildingFlat);
+            //    _db.SaveChanges();
+            //}
             return RedirectToAction("Index");
         }
 
