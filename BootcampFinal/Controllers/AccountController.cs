@@ -58,12 +58,14 @@ namespace BootcampFinal.Controllers
             User u = _db.Users.FirstOrDefault(x => x.Email == userLoginModel.Email && x.Password == userLoginModel.Password);
             if (u != null)
             {
-                string role = u.UserRole == UserRole.Administrator ? "Administrator" : "Instructor";
+               
+                string role = u.UserRole == UserRole.Administrator ? "Administrator" : "Resident";
                 ClaimsIdentity identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, u.Email),
                     new Claim(ClaimTypes.Role, role),
-                    new Claim(ClaimTypes.Name, u.Name)
+                    new Claim(ClaimTypes.Name, u.Name),
+                    new Claim(ClaimTypes.NameIdentifier, u.Id.ToString())
                 }, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 var principal = new ClaimsPrincipal(identity);
@@ -72,6 +74,12 @@ namespace BootcampFinal.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Login", "Account", new { error = 1 });
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
         }
 
         [HttpPost]

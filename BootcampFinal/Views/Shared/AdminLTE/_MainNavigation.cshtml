@@ -1,27 +1,27 @@
 ﻿@{
-   //string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;  
+    string userRole = User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value;
 }
 
 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="~/" class="brand-link">
-        @*<img src="~/img/aybu.png" alt="AdminLTE Logo" class="brand-image">*@
-        <span class="brand-text font-weight-light">Uni<b>Apsis</b></span>
-    </a>
+    <div class="col">
+        <a href="~/" class="brand-link">
+            <img src="~/img/apsiyon-logo.png" width="75" />
+            <span class="brand-text font-weight-light">Ap<b>sis</b></span>
+        </a>
+    </div>
 
-     Sidebar 
     <div class="sidebar">
-         Sidebar user panel (optional) 
         <div class="user-panel mt-2 pb-2 mb-3 d-flex">
             <div class="image" style="display: flex; align-items: center; flex-wrap: wrap;">
                 <img src="https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?s=612x612" class="img-circle elevation-2" alt="User Image">
             </div>
-            @*<div class="info">
+            <div class="info">
                 <a href="#" class="d-block">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault().Value</a>
                 <a href="#" class="d-block" style="font-size: smaller;color: #838f9b">@User.Claims.Where(n => n.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault().Value</a>
-            </div>*@
+            </div>
         </div>
 
         <!-- Sidebar Menu -->
@@ -36,44 +36,54 @@
             </li>
 
 
-            @*@if (userRole == "Administrator")
-        {*@
-            <li class="nav-item">
-                <a href="~/Building/Index" class="nav-link">
-                    <i class="far fa-building nav-icon"> </i>
-                    <p>Buildings</p>
-                </a>
-            </li>
+            @if (userRole == "Administrator")
+            {
+                <li class="nav-item">
+                    <a href="~/Building/Index" class="nav-link">
+                        <i class="far fa-building nav-icon"> </i>
+                        <p>Buildings</p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="~/House/Index" class="nav-link">
-                    <i class="fas fa-door-open"> </i>
-                    <p>Houses</p>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="~/House/Index" class="nav-link">
+                        <i class="fas fa-door-open"> </i>
+                        <p>Houses</p>
+                    </a>
+                </li>
 
 
-            <li class="nav-item">
-                <a href="~/Account/Index" class="nav-link">
-                    <i class="fas fa-user nav-icon"> </i>
-                    <p>Users</p>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="~/Account/Index" class="nav-link">
+                        <i class="fas fa-user nav-icon"> </i>
+                        <p>Users</p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="~/ResidentHouse/Index" class="nav-link">
-                    <i class="fas fa-user nav-icon"> </i>
-                    <p>Resident House</p>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="~/ResidentHouse/Index" class="nav-link">
+                        <i class="fas fa-user nav-icon"> </i>
+                        <p>Resident House</p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="~/Payment/Index" class="nav-link">
-                    <i class="fas fa-user nav-icon"> </i>
-                    <p>Payment</p>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="~/Payment/Index" class="nav-link">
+                        <i class="fas fa-user nav-icon"> </i>
+                        <p>Payment</p>
+                    </a>
+                </li>
+            }
 
+            @if (userRole == "Resident")
+            {
+                <li class="nav-item">
+                    <a href="~/MyFlat/Index" class="nav-link">
+                        <i class="fas fa-door-open"> </i>
+                        <p>My Flats</p>
+                    </a>
+                </li>
+            }
 
 
             <li class="nav-item">
