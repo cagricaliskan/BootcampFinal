@@ -4,14 +4,16 @@ using BootcampFinal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BootcampFinal.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    partial class ModelContextModelSnapshot : ModelSnapshot
+    [Migration("20210629221005_inttttttttt")]
+    partial class inttttttttt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,7 +316,7 @@ namespace BootcampFinal.Migrations
             modelBuilder.Entity("BootcampFinal.Models.Payment", b =>
                 {
                     b.HasOne("BootcampFinal.Models.PaymentType", "PaymentType")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("PaymentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -381,11 +383,6 @@ namespace BootcampFinal.Migrations
             modelBuilder.Entity("BootcampFinal.Models.Payment", b =>
                 {
                     b.Navigation("UserFlats");
-                });
-
-            modelBuilder.Entity("BootcampFinal.Models.PaymentType", b =>
-                {
-                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("BootcampFinal.Models.User", b =>

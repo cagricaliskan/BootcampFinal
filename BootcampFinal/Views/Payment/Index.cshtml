@@ -1,0 +1,131 @@
+﻿@model Tuple<IEnumerable<AppointedPayment>, IEnumerable<PaymentType>>
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<h2 class="sub-header ">Payment Types</h2>
+<div class="table-responsive col-md-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-2">Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 0;
+            }
+            @foreach (var item in Model.Item2)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="row col-md-8">
+    <h2 class="sub-header col">Pending Payments</h2>
+    <div class="col">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addSinglePaymentModal">
+            Add single payment
+        </button>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#addGroupPaymentModal">
+            Add group payment
+        </button>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-2">Resident</th>
+                <th class="col-md-3">Price</th>
+                <th class="col-md-3">Payment Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int coun = 0;
+            }
+            @foreach (var item in Model.Item1)
+            {
+                coun++;
+                <tr>
+                    <td>@count</td>
+
+                    <td>@item.UserFlat.User.Name @item.UserFlat.User.LastName</td>
+                    <td>@item.Payment.Price</td>
+                    <td>@item.Payment.PaymentType.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- ADD -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addSinglePaymentModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new house</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Payment" asp-action="addSinglePayment" method="post">
+
+                    <div class="form-group">
+                        <label for="Building">Resident:</label>
+                        <select class="form-control UserFlatId" name="UserFlatId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<UserFlat>)ViewBag.flat)
+                            {
+                                <option value="@item.Id">@item.Id</option>
+                            }
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Building">Flat:</label>
+                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
+                            <option value="0">Select a Resident</option>
+                            @foreach (var item in (List<UserFlat>)ViewBag.flat)
+                            {
+                                <option value="@item.BuildingFlat.Building.Id">@item.BuildingFlat.Building.Name </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Price">Price:  </label>
+                        <input type="number" id="Price" name="Price" class="form-control " required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>

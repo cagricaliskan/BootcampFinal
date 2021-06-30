@@ -22,6 +22,7 @@ namespace BootcampFinal.Models
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<UserFlat> UserFlats { get; set; }
+        public DbSet<AppointedPayment> AppointedPayments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -47,7 +47,7 @@ namespace BootcampFinal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddHouse()
+        public IActionResult AddHouse() //tüm apartmanların daireleri add e basılınca eklenir. Gereken düzenlemeleri edit yolu ile yapabiliriz.
         {
             var block = _db.Buildings.ToList();
             var flats = _db.Flats.ToList();
