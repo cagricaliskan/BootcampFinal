@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace BootcampFinal.Controllers
 {
@@ -16,18 +17,19 @@ namespace BootcampFinal.Controllers
             _db = db;
         }
         [Authorize("Resident")]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, string search = "")
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            var id = User.Claims.Where(p => p.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             int userId = int.Parse(id);
 
             var myflats = _db.UserFlats.AsQueryable();
+            ViewBag.page = page;
 
-            myflats = myflats.Where(x => x.UserId == userId).OrderByDescending(n => n.Id);
+            myflats = myflats.Where(x => x.User.Id == userId).OrderByDescending(n => n.Id);
 
             var a = myflats.ToList();
 
-            return View(a);
+            return View(myflats.ToPagedList(page,10));
         }
     }
 }

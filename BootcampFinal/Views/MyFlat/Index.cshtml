@@ -1,7 +1,66 @@
-﻿@model IEnumerable<UserFlat>
+﻿@model IPagedList<UserFlat>
+
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
+}
+
+<div class="card card-primary mt-4">
+    <div class="card-header">
+        <b>House List</b>
+    </div>
+
+    <table class="table table-hover table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th style="width:6%">#.</th>
+                <th>Block</th>
+                <th>Flat</th>
+                <th>Payment Amount</th>
+                <th class="text-right" style="width:10%">İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                int page = ((int)ViewBag.page);
+                int counter = (page - 1) * 10;
+            }
+
+            @foreach (var item in Model)
+            {
+                counter++;
+                <tr>
+                    <td>@counter.</td>
+                    <td>@item.BuildingFlat.Building.Name</td>
+                    <td>@item.BuildingFlat.Flat.Name</td>
+                    <td>@item.Payment.Price</td>
+                    
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="col-md-12">
+        <div class="float-right">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.search }), new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link", "text-bold" },
+           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+           DisplayLinkToIndividualPages = true
+       })
+        </div>
+    </div>
+</div>
 
 @foreach (var item in Model)
-	{
-		 <div>@item</div>
-	}
-@ViewBag.a;
+{
+    <div>@item.User.Name</div>
+    <div>@item.BuildingFlat.Building.Name @item.BuildingFlat.Flat.Name</div>
+}
