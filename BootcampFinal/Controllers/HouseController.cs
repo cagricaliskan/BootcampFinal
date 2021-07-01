@@ -9,7 +9,7 @@ using X.PagedList;
 
 namespace BootcampFinal.Controllers
 {
-    [AllowAnonymous]
+    [Authorize("Administrator")]
     public class HouseController : Controller
     {
 

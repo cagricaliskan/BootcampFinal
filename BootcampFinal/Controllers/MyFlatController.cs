@@ -16,16 +16,17 @@ namespace BootcampFinal.Controllers
         }
         public IActionResult Index()
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            int userId = int.Parse(id);
+            var id = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Name).Value;
+            //int userId = int.Parse(id);
 
-            var myflats = _db.UserFlats.AsQueryable();
+            //var myflats = _db.UserFlats.AsQueryable();
 
-            myflats = myflats.OrderByDescending(n => n.Id).Where(x => x.UserId == userId);
+            //myflats = myflats.OrderByDescending(n => n.Id).Where(x => x.UserId == userId);
 
-            var a = myflats.ToList();
+            //var a = myflats.ToList();
+            ViewBag.a = id;
 
-            return View();
+            return View(id);
         }
     }
 }
