@@ -1,4 +1,5 @@
 ﻿using BootcampFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,19 +15,19 @@ namespace BootcampFinal.Controllers
         {
             _db = db;
         }
+        [Authorize("Resident")]
         public IActionResult Index()
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Name).Value;
-            //int userId = int.Parse(id);
+            var id = User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            int userId = int.Parse(id);
 
-            //var myflats = _db.UserFlats.AsQueryable();
+            var myflats = _db.UserFlats.AsQueryable();
 
-            //myflats = myflats.OrderByDescending(n => n.Id).Where(x => x.UserId == userId);
+            myflats = myflats.Where(x => x.UserId == userId).OrderByDescending(n => n.Id);
 
-            //var a = myflats.ToList();
-            ViewBag.a = id;
+            var a = myflats.ToList();
 
-            return View(id);
+            return View(a);
         }
     }
 }

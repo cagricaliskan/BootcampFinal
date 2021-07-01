@@ -42,11 +42,11 @@ namespace BootcampFinal
                     policy.RequireAuthenticatedUser();
                     policy.RequireRole("Administrator");
                 });
-                options.AddPolicy("Instructor", policy => // hoca
+                options.AddPolicy("Resident", policy => // hoca
                 {
                     policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
                     policy.RequireAuthenticatedUser();
-                    policy.RequireRole("Instructor");
+                    policy.RequireRole("Resident");
                 });
                 options.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -77,6 +77,7 @@ namespace BootcampFinal
 
             app.UseRouting();
 
+            app.UseCookiePolicy();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -2,6 +2,7 @@
 using BootcampFinal.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +24,7 @@ namespace BootcampFinal.Controllers
         }
 
 
-
+        [AllowAnonymous]
         public IActionResult Index(int page = 1, string search = "")
         {
             var users = _db.Users.Where(x => x.UserRole == UserRole.Resident);
@@ -88,6 +89,7 @@ namespace BootcampFinal.Controllers
            
             if( user != null)
             {
+
                 _db.Add(user);
                 _db.SaveChanges();
             }
