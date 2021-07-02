@@ -55,7 +55,7 @@
         <!-- /.card-header -->
         <div class="card-body">
             @ViewBag.searchCount results have been found from the search for "@ViewBag.search" in <span class="badge badge-light">Full Name</span> and <span class="badge badge-light">Email</span><br />
-            @Html.ActionLink("Clear Search", "Index", "Account", null, new { @class = "btn btn-sm btn-default mt-2" })
+            @Html.ActionLink("Clear Search", "Index", "User", null, new { @class = "btn btn-sm btn-default mt-2" })
         </div>
         <!-- /.card-body -->
     </div>
@@ -102,20 +102,20 @@
             }
         </tbody>
     </table>
-    
-    
+
+
     <div class="col-md-12">
         <div class="float-right">
-          @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.search}), new PagedListRenderOptions
-     {
-         LiElementClasses = new string[] { "page-item" },
-         PageClasses = new string[] { "page-link", "text-bold" },
-         DisplayLinkToFirstPage = PagedListDisplayMode.Always,
-         DisplayLinkToLastPage = PagedListDisplayMode.Always,
-         DisplayLinkToNextPage = PagedListDisplayMode.Always,
-         DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-         DisplayLinkToIndividualPages = true
-     })
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.search }), new PagedListRenderOptions
+       {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link", "text-bold" },
+           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+           DisplayLinkToIndividualPages = true
+       })
         </div>
     </div>
 </div>
@@ -133,7 +133,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Account" asp-action="AddUser" method="post">
+                <form asp-controller="User" asp-action="AddUser" method="post">
                     <input id="UserRole" name="UserRole" type="hidden" value="1" />
                     <div class="form-group">
                         <label for="Name">Name:  </label>
@@ -191,7 +191,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Account" asp-action="EditUser" method="post">
+                <form asp-controller="User" asp-action="EditUser" method="post">
                     <input id="Id" name="Id" type="hidden" />
                     <div class="form-group">
                         <label for="Name">Name:  </label>
@@ -245,17 +245,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Account" asp-action="DeleteUser" method="post">
+                <form asp-controller="User" asp-action="DeleteUser" method="post">
                     <input id="Id" name="Id" type="hidden" />
                     <input type="hidden" class="Id" id="Id" name="Id" />
                     <div class="form-group">
                         <label for="Name">Name:  </label>
-                        <input type="text" id="Name" name="name" class="form-control"  readonly/>
+                        <input type="text" id="Name" name="name" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="LastName">Lastname:  </label>
-                        <input type="text" id="LastName" name="lastName" class="form-control"  readonly />
+                        <input type="text" id="LastName" name="lastName" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
@@ -296,7 +296,7 @@
 
 
                 var userId = $(this).data("id");
-                var getUserUrl = "@Url.Action("GetUser", "Account", null, "http")";
+                var getUserUrl = "@Url.Action("GetUser", "User", null, "http")";
                 var fullUrl = getUserUrl + "/" + userId;
 
                 $.get(fullUrl, function (data, status) {
