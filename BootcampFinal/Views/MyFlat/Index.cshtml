@@ -35,10 +35,25 @@
                     <td>@counter.</td>
                     <td>@item.BuildingFlat.Building.Name</td>
                     <td>@item.BuildingFlat.Flat.Name</td>
-                    <td>@item.Payment.Price</td>
-                    
-                </tr>
-            }
+                    <td>
+                        @if (@item.PaymentId != null)
+                        {
+                            @item.Payment.Price;
+                        }
+                        else
+                        {
+                            <p>-</p>
+                        }
+                </td>
+
+                <td>
+
+                    <button class="btn btn-sm btn-warning">
+                        Pay
+                    </button>
+                </td>
+            </tr>
+        }
         </tbody>
 
     </table>
@@ -58,9 +73,3 @@
         </div>
     </div>
 </div>
-
-@foreach (var item in Model)
-{
-    <div>@item.User.Name</div>
-    <div>@item.BuildingFlat.Building.Name @item.BuildingFlat.Flat.Name</div>
-}
