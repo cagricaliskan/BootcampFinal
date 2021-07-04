@@ -1,4 +1,6 @@
 ﻿using BootcampFinal.Models;
+using BootcampFinal.Services;
+using BootcampFinal.ViewString;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +15,12 @@ namespace BootcampFinal.Controllers
     public class UserController : Controller
     {
         private readonly ModelContext _db;
+        private readonly IEmailService _emailSender;
 
-        public UserController(ModelContext db)
+        public UserController(ModelContext db, IEmailService emailSender)
         {
             _db = db;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index(int page = 1, string search = "")
@@ -37,14 +41,22 @@ namespace BootcampFinal.Controllers
             return View(users.ToPagedList(page, 10));
         }
         [HttpPost]
-        public IActionResult AddUser(User user)
+        public async Task<IActionResult> AddUser(User user)
         {
 
             if (user != null)
             {
 
+                Random r = new Random();
+                var x = r.Next(0, 1000000);
+                string s = x.ToString("000000");
+
+                user.Password = s;
                 _db.Add(user);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
+
+                string str =  await ViewToStringRenderer.RenderViewToStringAsync(HttpContext.RequestServices, $"~/Views/EMail/NoLinkEMailTemplate.cshtml", $"Hi {user.Name}, your account is created, your password is {user.Password}");
+                await _emailSender.Send(user.Email, "Apsis Account", str);
             }
 
             return RedirectToAction("Index");

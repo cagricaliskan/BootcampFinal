@@ -1,9 +1,11 @@
 using BootcampFinal.Models;
+using BootcampFinal.Services;
 using CreditCardService.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,12 @@ namespace BootcampFinal
 
 
             services.AddMvc().AddRazorRuntimeCompilation();
+
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.Configure<SMTPSettings>(Configuration.GetSection("SMTPSettings"));
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {

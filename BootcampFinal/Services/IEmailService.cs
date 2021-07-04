@@ -7,9 +7,7 @@ namespace BootcampFinal.Services
 {
     public interface IEmailService
     {
-        public interface IEmailService
-        {
-            Task Send(string to, string subject, string html);
-        }
+        Task Send(string to, string subject, string html);
+
     }
 }
