@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CreditCardService.Services
 {
-    public class CreditCardService
+    public class CreditCardService : ICreditCardService
     {
         IMongoCollection<CreditCard> _creditCardCollection;
         MongoDbConfiguration _config;
@@ -36,5 +36,6 @@ namespace CreditCardService.Services
 
             return false;
         }
+
     }
 }

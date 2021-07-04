@@ -1,4 +1,5 @@
 using BootcampFinal.Models;
+using CreditCardService.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -58,8 +59,10 @@ namespace BootcampFinal
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
-
+            services.AddSingleton<CreditCardService.Services.CreditCardService>();
             services.AddControllersWithViews();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

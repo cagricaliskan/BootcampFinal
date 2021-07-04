@@ -1,5 +1,6 @@
 using CreditCardService.Middlewares;
 using CreditCardService.Model.Mongo;
+using CreditCardService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
