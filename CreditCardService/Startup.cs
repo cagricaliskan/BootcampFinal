@@ -1,4 +1,5 @@
 using CreditCardService.Middlewares;
+using CreditCardService.Model.Mongo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,9 @@ namespace CreditCardService
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.Configure<MongoDbConfiguration>(Configuration.GetSection("Mongo"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

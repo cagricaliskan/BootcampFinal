@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CreditCardService.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace CreditCardService.Controllers
     [Authorize]
     public class BankingController : ControllerBase
     {
-        [HttpGet("Index")]
-        public IActionResult Index()
+        [HttpGet("WithdrawMoney")]
+        public IActionResult WithdrawMoney(CreditCardViewModel creditCard)
         {
             return Ok();
         }
