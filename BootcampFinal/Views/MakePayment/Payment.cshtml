@@ -24,7 +24,7 @@
             <input name="Cvv" type="text" placeholder="Cvv" />
         </div>
     </div>
-    <input name="Money" @*type="hidden"*@ value="@Model.Payment.Price" />
+    <input name="Money" @*type="hidden"*@ value="@Model.Payment.Price" readonly/>
     <div class="row">
         <div class="col-12">
             <button type="submit">Ödeme Yap</button>

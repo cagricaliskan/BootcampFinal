@@ -9,13 +9,13 @@ namespace CreditCardService.Services
     {
         IMongoCollection<CreditCard> _creditCardCollection;
         MongoDbConfiguration _config;
-
         public CreditCardService(IOptions<MongoDbConfiguration> config)
         {
             _config = config.Value;
             MongoClient mongoClient = new MongoClient(_config.ConnectionString);
             var database = mongoClient.GetDatabase(_config.Database);
             _creditCardCollection = database.GetCollection<CreditCard>("CreditCard");
+
         }
 
         public async Task<bool> WithdrawMoney(CreditCard creditCard, int money)
