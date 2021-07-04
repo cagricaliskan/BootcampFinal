@@ -22,4 +22,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CreditCardService\CreditCardService.csproj" />
+  </ItemGroup>
+
 </Project>

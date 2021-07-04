@@ -1,0 +1,33 @@
+﻿@model AppointedPayment
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+
+
+<form method="post">
+    <div class="row">
+        <div class="col-6">
+            <input name="Owner" type="text" placeholder="Kart Sahibi" />
+        </div>
+        <div class="col-6">
+            <input name="CardNumber" type="text" placeholder="Kart numarası" />
+        </div>
+        <div class="col-6">
+            <input name="ValidMonth" type="text" placeholder="Kart Geçerlilik tarihi ay" />
+        </div>
+        <div class="col-6">
+            <input name="ValidYear" type="text" placeholder="Kart Geçerlilik tarihi yıl" />
+        </div>
+        <div class="col-6">
+            <input name="Cvv" type="text" placeholder="Cvv" />
+        </div>
+    </div>
+    <input name="Money" @*type="hidden"*@ value="@Model.Payment.Price" />
+    <div class="row">
+        <div class="col-12">
+            <button type="submit">Ödeme Yap</button>
+        </div>
+    </div>
+</form>

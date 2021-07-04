@@ -1,9 +1,6 @@
 ﻿using CreditCardService.Model.Mongo;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CreditCardService.Services
@@ -30,7 +27,6 @@ namespace CreditCardService.Services
 
             if (current != null && current.Balance >= money)
             {
-
                 current.Balance -= money;
 
                 await _creditCardCollection.ReplaceOneAsync(x => x.Id == current.Id, current);
