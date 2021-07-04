@@ -61,13 +61,18 @@
             @foreach (var item in Model.Item1)
             {
                 coun++;
-                <tr>
-                    <td>@count</td>
+                @if (item.isPaid == false)
+                {
+                    <tr>
+                        <td>@coun</td>
 
-                    <td>@item.UserFlat.User.Name @item.UserFlat.User.LastName</td>
-                    <td>@item.Payment.Price</td>
-                    <td>@item.Payment.PaymentType.Name</td>
-                </tr>
+                        <td>@item.UserFlat.User.Name @item.UserFlat.User.LastName</td>
+                        <td>@item.Payment.Price</td>
+                        <td>@item.Payment.PaymentType.Name</td>
+                    </tr>
+                }
+                
+
             }
         </tbody>
     </table>

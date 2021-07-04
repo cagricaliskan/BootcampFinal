@@ -23,7 +23,10 @@ namespace BootcampFinal.Models
         public virtual Payment Payment { get; set; }
 
 
+        public bool isPaid { get; set; }
 
-        
+
+
+
     }
 }
