@@ -23,6 +23,7 @@ namespace BootcampFinal.Controllers
             ViewBag.user = _db.Users.Where(x => x.UserRole == UserRole.Resident).ToList();
             ViewBag.flat = _db.UserFlats.ToList();
             ViewBag.payment = _db.Payments.ToList();
+            ViewBag.building = _db.Buildings.ToList();
             return View(Tuple.Create<IEnumerable<AppointedPayment>, IEnumerable<PaymentType>>(_db.AppointedPayments.ToList(), _db.PaymentTypes.ToList()));
         }
 
@@ -35,6 +36,25 @@ namespace BootcampFinal.Controllers
                 _db.SaveChanges();
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult AddGroupPayment(AppointedPayment payment, int BuildingId)
+        {
+            var u = _db.UserFlats.Where(x => x.BuildingFlat.BuildingId == BuildingId);
+
+            foreach (var item in u)
+            {
+                var entry = new AppointedPayment
+                {
+                    UserFlatId = item.Id,
+                    PaymentId = payment.PaymentId
+                };
+
+                _db.AppointedPayments.Add(entry);
+                _db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
     }

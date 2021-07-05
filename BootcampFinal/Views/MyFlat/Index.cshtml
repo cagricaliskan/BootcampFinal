@@ -1,8 +1,8 @@
-﻿@model IPagedList<UserFlat>
+﻿@model IPagedList<AppointedPayment>
 
 
 @{
-    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; 
 }
 
 <div class="card card-primary mt-4">
@@ -33,10 +33,10 @@
                 counter++;
                 <tr>
                     <td>@counter.</td>
-                    <td>@item.BuildingFlat.Building.Name</td>
-                    <td>@item.BuildingFlat.Flat.Name</td>
+                    <td>@item.UserFlat.BuildingFlat.Building.Name</td>
+                    <td>@item.UserFlat.BuildingFlat.Flat.Name</td>
                     <td>
-                        @if (@item.PaymentId != null)
+                        @if (item.UserFlat.PaymentId != null && item.isPaid == false)
                         {
                             @item.Payment.Price;
                         }
@@ -47,9 +47,17 @@
                 </td>
 
                     <td>
-                        <a href="/MakePayment/Payment?paymentId=@item.PaymentId" class="Button btn btn-sm btn-success editBtn">
-                            Pay
-                        </a>
+                        @if (item.isPaid == true)
+                        {
+                            <button class="btn btn-sm btn-warning">Paid</button>
+                        }
+                        else
+                        {
+                            <a href="/MakePayment/Payment?paymentId=@item.PaymentId" class="Button btn btn-sm btn-success editBtn">
+                                Pay
+                            </a>
+                        }
+
                     </td>
             </tr>
         }

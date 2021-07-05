@@ -22,10 +22,10 @@ namespace BootcampFinal.Controllers
             var id = User.Claims.Where(p => p.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             int userId = int.Parse(id);
 
-            var myflats = _db.UserFlats.AsQueryable();
+            var myflats = _db.AppointedPayments.AsQueryable();
             ViewBag.page = page;
 
-            myflats = myflats.Where(x => x.User.Id == userId).OrderByDescending(n => n.Id);
+            myflats = myflats.Where(x => x.UserFlat.User.Id == userId).OrderByDescending(n => n.Id);
 
             var a = myflats.ToList();
 

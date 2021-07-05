@@ -1,12 +1,13 @@
-﻿@model IPagedList<BootcampFinal.Models.UserFlat>
+﻿@model IPagedList<Vehicle>
 
 @{
-    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml"; ;
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
-<button type="button" class="btn btn-success row" data-toggle="modal" data-target="#addRHModal">
-    Append resident to flat 
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addVehicleModal">
+    Add new vehicle
 </button>
+
 <form class="form-inline float-right" method="get">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="@ViewBag.search">
     <button class="btn btn-primary" type="submit">Search</button>
@@ -50,7 +51,8 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            @Html.ActionLink("Clear Search", "Index", "ResidentHouse", null, new { @class = "btn btn-sm btn-default mt-2" })
+            @ViewBag.searchCount results have been found from the search for "@ViewBag.search" in <span class="badge badge-light">Name</span><br />
+            @Html.ActionLink("Clear Search", "Index", "Vehicle", null, new { @class = "btn btn-sm btn-default mt-2" })
         </div>
         <!-- /.card-body -->
     </div>
@@ -58,7 +60,7 @@
 
 <div class="card card-primary mt-4">
     <div class="card-header">
-        <b>House List</b>
+        <b>Vehicle List</b>
     </div>
 
     <table class="table table-hover table-bordered table-striped">
@@ -66,10 +68,9 @@
         <thead>
             <tr>
                 <th style="width:6%">#.</th>
-                <th>Resident</th>
-                <th>Building</th>
-                <th>No</th>
-                <th>Flat Type</th>
+                <th>Owner</th>
+                <th>Plate</th>
+                <th>Type</th>
                 <th class="text-right" style="width:10%">İşlem</th>
             </tr>
         </thead>
@@ -86,12 +87,11 @@
                 <tr>
                     <td>@counter.</td>
                     <td>@item.User.Name @item.User.LastName</td>
-                    <td>@item.BuildingFlat.Building.Name</td>
-                    <td>@item.BuildingFlat.Flat.Name</td>
-                    <td>@item.BuildingFlat.FlatType.Name</td>
+                    <td>@item.Plate</td>
+                    <td>@item.Type</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editResidentHouseModal" data-id="@item.Id">Edit</button>
-                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteResidentHouseModal" data-id="@item.Id">Delete</button>
+                        <button type="button" class="btn btn-sm btn-warning editBtn" data-toggle="modal" data-target="#editVehicleModal" data-id="@item.Id">Edit</button>
+                        <button type="button" class="btn btn-sm btn-danger editBtn" data-toggle="modal" data-target="#deleteVehicleModal" data-id="@item.Id">Delete</button>
                     </td>
                 </tr>
             }
@@ -114,44 +114,41 @@
         </div>
     </div>
 </div>
-
-
-
 <!-- ADD -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="addRHModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="addVehicleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add new house</h5>
+                <h5 class="modal-title">Add new vehicle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="ResidentHouse" asp-action="AddRH" method="post">
+                <form asp-controller="Vehicle" asp-action="AddVehicle" method="post">
 
                     <div class="form-group">
                         <label for="Building">Resident:</label>
                         <select class="form-control UserId" name="UserId">
                             <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<User>)ViewBag.user)
+                            @foreach (var item in (List<UserFlat>)ViewBag.user)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.User.Id">@item.User.Name</option>
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="Building">Flat:</label>
-                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
-                            <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<BuildingFlat>) ViewBag.bf)
-                            {
-                               <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
-                            }
-                        </select>
+                        <label for="Plate">Plate:  </label>
+                        <input type="text" id="Plate" name="Plate" class="form-control" required />
                     </div>
+
+                    <div class="form-group">
+                        <label for="Type">Type:  </label>
+                        <input type="text" id="Type" name="Type" class="form-control" required />
+                    </div>
+
                     <div class="form-group">
                         <input type="submit" class="btn btn-success" />
                     </div>
@@ -166,40 +163,42 @@
     </div>
 </div>
 
-<!-- EDIT -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="editResidentHouseModal">
+<!-- Edit -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editVehicleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add new house</h5>
+                <h5 class="modal-title">Edit Vehicle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="ResidentHouse" asp-action="EditRH" method="post">
+                <form asp-controller="Vehicle" asp-action="EditVehicle" method="post">
+
                     <input type="hidden" id="Id" name="Id" class="Id" value="" />
                     <div class="form-group">
                         <label for="Building">Resident:</label>
+
                         <select class="form-control UserId" name="UserId">
                             <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<User>)ViewBag.user)
+                            @foreach (var item in (List<UserFlat>)ViewBag.user)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.User.Id">@item.User.Name</option>
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="Building">Flat:</label>
-                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
-                            <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<BuildingFlat>)ViewBag.bf)
-                            {
-                                <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
-                            }
-                        </select>
+                        <label for="Plate">Plate:  </label>
+                        <input type="text" id="Plate" name="Plate" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Type">Type:  </label>
+                        <input type="text" id="Type" name="Type" class="form-control" required />
                     </div>
 
                     <div class="form-group">
@@ -217,41 +216,41 @@
 </div>
 
 
-<!-- DELETE -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteResidentHouseModal">
+<!-- Delete -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteVehicleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add new house</h5>
+                <h5 class="modal-title">Delete Vehicle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-controller="ResidentHouse" asp-action="DeleteRH" method="post">
-                    <input type="hidden" id="Id" name="Id" class="Id" value="" />
+                <form asp-controller="Vehicle" asp-action="DeleteVehicle" method="post">
 
+                    <input type="hidden" id="Id" name="Id" class="Id" value="" />
                     <div class="form-group">
                         <label for="Building">Resident:</label>
                         <select class="form-control UserId" name="UserId" disabled>
                             <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<User>)ViewBag.user)
+                            @foreach (var item in (List<UserFlat>)ViewBag.user)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.User.Id">@item.User.Name</option>
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="Building">Flat:</label>
-                        <select class="form-control BuildingFlatId" name="BuildingFlatId" disabled>
-                            <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<BuildingFlat>)ViewBag.bf)
-                            {
-                                <option value="@item.Id">@item.Building.Name @item.Flat.Name</option>
-                            }
-                        </select>
+                        <label for="Plate">Plate:  </label>
+                        <input type="text" id="Plate" name="Plate" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Type">Type:  </label>
+                        <input type="text" id="Type" name="Type" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
@@ -268,21 +267,20 @@
     </div>
 </div>
 
+
 @section Scripts{
     <script type="text/javascript">
         $(function () {
             $(".editBtn").on("click", function () {
-                var RHId = $(this).data("id");
-                var getRHUrl = "@Url.Action("GetRH", "ResidentHouse", null, "http")";
-                var fullUrl = getRHUrl + "/" + RHId;
+                var VehicleId = $(this).data("id");
+                var getVehicleUrl = "@Url.Action("GetVehicle", "Vehicle", null, "http")";
+                var fullUrl = getVehicleUrl + "/" + VehicleId;
 
                 $.get(fullUrl, function (data, status) {
-                    $("select.UserId").val(data.userId); 
-                    
-                    $("select.BuildingFlatId").val(data.buildingFlatId);
+                    $("select.UserId").val(data.userId);
+                    $("input#Plate").val(data.plate);
+                    $("input#Type").val(data.type);
                     $("input#Id").val(data.id);
-
-                    alert(data.userId + data.buildingFlatId);
                 });
 
             })

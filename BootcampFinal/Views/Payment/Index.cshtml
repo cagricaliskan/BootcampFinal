@@ -39,7 +39,10 @@
         </button>
     </div>
     <div class="col">
-        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#addGroupPaymentModal">
+        @*<form action="@Url.Action("AddGroupPayment", "Payment")" method="POST">
+                <input type="button" value="Add group payment" class="btn btn-success" />
+            </form>*@
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addGroupPaymentModal">
             Add group payment
         </button>
     </div>
@@ -71,14 +74,14 @@
                         <td>@item.Payment.PaymentType.Name</td>
                     </tr>
                 }
-                
+
 
             }
         </tbody>
     </table>
 </div>
 
-<!-- ADD -->
+<!-- ADD SINGLE -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="addSinglePaymentModal">
     <div class="modal-dialog" role="document">
@@ -117,9 +120,66 @@
                     </div>
 
                     @*<div class="form-group">
-                        <label for="Price">Price:  </label>
-                        <input type="number" id="Price" name="Price" class="form-control " required />
-                    </div>*@
+                            <label for="Price">Price:  </label>
+                            <input type="number" id="Price" name="Price" class="form-control " required />
+                        </div>*@
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <i>
+                    Açıklama yazılacak
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD Group -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addGroupPaymentModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new house</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Payment" asp-action="addGroupPayment" method="post">
+
+                    <div class="form-group">
+                        <label for="Building">Building:</label>
+                        <select class="form-control BuildingId" name="BuildingId">
+                            <option value="0">Select a Building</option>
+                            @foreach (var item in (List<Building>)ViewBag.building)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Building">Payment:</label>
+                        <select class="form-control PaymentId" name="PaymentId">
+                            <option value="0">Select a payment type</option>
+                            @foreach (var item in (List<Payment>)ViewBag.payment)
+                            {
+                                <option value="@item.Id"> @item.PaymentType.Name  @item.Price  </option>
+                            }
+                        </select>
+                    </div>
+
+                    @*<div class="form-group">
+                            <label for="Price">Price:  </label>
+                            <input type="number" id="Price" name="Price" class="form-control " required />
+                        </div>*@
 
                     <div class="form-group">
                         <input type="submit" class="btn btn-success" />
