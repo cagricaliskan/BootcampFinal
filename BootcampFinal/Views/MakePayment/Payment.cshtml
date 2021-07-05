@@ -25,6 +25,7 @@
         </div>
     </div>
     <input name="Money" @*type="hidden"*@ value="@Model.Payment.Price" readonly/>
+    <input type="hidden" name="@Model.PaymentId"/>
     <div class="row">
         <div class="col-12">
             <button type="submit">Ödeme Yap</button>

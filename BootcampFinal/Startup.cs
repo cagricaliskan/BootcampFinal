@@ -1,5 +1,6 @@
 using BootcampFinal.Models;
 using BootcampFinal.Services;
+using CreditCardService.Model.Mongo;
 using CreditCardService.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -68,6 +69,8 @@ namespace BootcampFinal
                     Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
             services.AddSingleton<CreditCardService.Services.CreditCardService>();
+
+            services.Configure<MongoDbConfiguration>(Configuration.GetSection("Mongo"));
             services.AddControllersWithViews();
 
             

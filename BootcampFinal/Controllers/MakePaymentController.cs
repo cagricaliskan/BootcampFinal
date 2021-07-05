@@ -28,10 +28,23 @@ namespace BootcampFinal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Payment(CreditCard creditCard, int money)
+        public async Task<IActionResult> Payment(CreditCard creditCard, int money, int paymentId)
         {
             bool result = await _creditCardService.WithdrawMoney(creditCard, money);
-            return View();
+
+
+            var update = _db.AppointedPayments.FirstOrDefault(x => x.PaymentId == paymentId);
+
+            if (update != null)
+            {
+                update.isPaid = true;
+
+                if (ModelState.IsValid)
+                {
+                    await _db.SaveChangesAsync();
+                }
+            }
+                return RedirectToAction("Index","MyFlat");
         }
     }
 }

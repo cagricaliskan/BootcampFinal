@@ -27,7 +27,7 @@ namespace BootcampFinal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSinglePayment([Bind(Prefix = "Item1")] AppointedPayment payment)
+        public IActionResult AddSinglePayment(AppointedPayment payment)
         {
             if(payment != null)
             {

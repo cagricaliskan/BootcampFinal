@@ -21,5 +21,7 @@ namespace BootcampFinal.Models
         public int BuildingFlatId { get; set; }
         [ForeignKey("BuildingFlatId")]
         public virtual BuildingFlat BuildingFlat { get; set; }
+
+
     }
 }

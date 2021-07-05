@@ -98,7 +98,7 @@
                             <option value="0">Select a Resident</option>
                             @foreach (var item in (List<UserFlat>)ViewBag.flat)
                             {
-                                <option value="@item.Id">@item.Id</option>
+                                <option value="@item.Id">@item.User.Name @item.BuildingFlat.Building.Name @item.BuildingFlat.Flat.Name</option>
                             }
                         </select>
                     </div>
@@ -107,19 +107,19 @@
 
                     <div class="form-group">
                         <label for="Building">Flat:</label>
-                        <select class="form-control BuildingFlatId" name="BuildingFlatId">
+                        <select class="form-control PaymentId" name="PaymentId">
                             <option value="0">Select a Resident</option>
-                            @foreach (var item in (List<UserFlat>)ViewBag.flat)
+                            @foreach (var item in (List<Payment>)ViewBag.payment)
                             {
-                                <option value="@item.BuildingFlat.Building.Id">@item.BuildingFlat.Building.Name </option>
+                                <option value="@item.Id"> @item.PaymentType.Name  @item.Price  </option>
                             }
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label for="Price">Price:  </label>
                         <input type="number" id="Price" name="Price" class="form-control " required />
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <input type="submit" class="btn btn-success" />
