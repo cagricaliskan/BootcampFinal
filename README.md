@@ -17,18 +17,7 @@
  ![mail](https://user-images.githubusercontent.com/42703783/122990450-9e622580-d3ac-11eb-8bba-972dff7107f7.png)
 
 
-  Invited user will be redirected to this page to complete their registiration.
-  ![kayit](https://user-images.githubusercontent.com/42703783/122990520-b5087c80-d3ac-11eb-835b-615a89ffbca8.png)
-
-
-* Admin users can add and edit informations such as;
-
-  * Floor
-  * Class
-  * Classroom
-
-
-
+  
 * **Instructors** can create attendance list, upload file, see student list and post announcmets. This system can prevent need of mail groups since instructors can share files and post announcments in this system.
 
   ![derslist](https://user-images.githubusercontent.com/42703783/122990572-c8b3e300-d3ac-11eb-866f-fdf6e42b1be4.png)
@@ -38,3 +27,4 @@
 ![yoklama](https://user-images.githubusercontent.com/42703783/122990579-cce00080-d3ac-11eb-8ac2-f88c50c1d195.png)
 
 
+![image](https://user-images.githubusercontent.com/42703783/124497583-b7fb6800-ddc3-11eb-9bab-7161b8ab935b.png)
