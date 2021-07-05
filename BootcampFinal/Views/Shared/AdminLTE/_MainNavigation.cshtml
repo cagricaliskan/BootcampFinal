@@ -69,21 +69,30 @@
 
                 <li class="nav-item">
                     <a href="~/Payment/Index" class="nav-link">
-                        <i class="fas fa-user nav-icon"> </i>
+                        <i class="fa fa-university nav-icon"> </i>
                         <p>Payment</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="~/Vehicle/Index" class="nav-link">
+                        <i class="fa fa-car nav-icon"> </i>
+                        <p>Vehicle</p>
+                    </a>
+                </li>
+
+        
             }
 
             @if (userRole == "Resident")
-            {
-                <li class="nav-item">
-                    <a href="~/MyFlat/Index" class="nav-link">
-                        <i class="fas fa-door-open"> </i>
-                        <p>My Flats</p>
-                    </a>
-                </li>
-            }
+                        {
+            <li class="nav-item">
+                <a href="~/MyFlat/Index" class="nav-link">
+                    <i class="fas fa-door-open"> </i>
+                    <p>My Flats</p>
+                </a>
+            </li>
+}
 
 
             <li class="nav-item">
